@@ -2,43 +2,30 @@ pipeline {
     agent any
 
     tools {
-        maven "maven3.9.9"
-        jdk "JDK21"
+        maven 'maven3.9'
+        jdk 'jdk21'
     }
 
     stages {
-        stage('SCM') {
+        stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Venkiemc/Jenkins-demo-pipelines.git'
+                checkout scm
             }
         }
 
-        stage('Build and Unit Test') {
+        stage('Verify Tools') {
             steps {
-                bat 'mvn clean package'  // This will generate the JAR and run tests
+                sh '''
+                    java -version
+                    mvn -version
+                '''
             }
         }
 
-        stage('Checkstyle Analysis') {
+        stage('Build') {
             steps {
-                bat 'mvn checkstyle:checkstyle'
+                sh 'mvn clean install'
             }
-        }
-
-        stage('Archive Artifacts') {
-            steps {
-                echo 'Now Archiving it...'
-                archiveArtifacts artifacts: '**/target/*.jar'  // Archives the JAR file
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Pipeline completed successfully.'
-        }
-        failure {
-            echo 'Pipeline failed.'
         }
     }
 }
