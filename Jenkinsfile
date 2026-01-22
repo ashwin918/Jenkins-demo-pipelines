@@ -2,8 +2,11 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven3.9'
         jdk 'jdk21'
+    }
+
+    environment {
+        SONAR_TOKEN = credentials('sonar-token')
     }
 
     stages {
@@ -13,18 +16,17 @@ pipeline {
             }
         }
 
-        stage('Verify Tools') {
+        stage('SonarCloud Analysis') {
             steps {
-                sh '''
-                    java -version
-                    mvn -version
-                '''
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
+                withSonarQubeEnv('SonarCloud') {
+                    sh '''
+                      sonar-scanner \
+                      -Dsonar.projectKey=YOUR_PROJECT_KEY \
+                      -Dsonar.organization=YOUR_ORG_KEY \
+                      -Dsonar.host.url=https://sonarcloud.io \
+                      -Dsonar.login=$SONAR_TOKEN
+                    '''
+                }
             }
         }
     }
