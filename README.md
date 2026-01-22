@@ -1,2 +1,1 @@
-# sonarqube-jenkins-project
-EMC sonarqube-jenkins-project
+sonarqube testing tool
