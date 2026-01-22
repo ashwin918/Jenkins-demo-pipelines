@@ -1,1 +1,1 @@
-sonarqube testing tool
+never smoke
