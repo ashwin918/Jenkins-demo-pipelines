@@ -3,6 +3,7 @@ pipeline {
 
     tools {
         jdk 'jdk21'
+        sonarScanner 'sonar-scanner'
     }
 
     stages {
