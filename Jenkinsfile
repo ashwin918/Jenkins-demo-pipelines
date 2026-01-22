@@ -19,13 +19,13 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    sh '''
+                    sh """
                       sonar-scanner \
-                      -Dsonar.projectKey=YOUR_PROJECT_KEY \
-                      -Dsonar.organization=YOUR_ORG_KEY \
+                      -Dsonar.projectKey=ashwin918_Jenkins-demo-pipelines \
+                      -Dsonar.organization=ashwin918 \
                       -Dsonar.host.url=https://sonarcloud.io \
                       -Dsonar.login=$SONAR_TOKEN
-                    '''
+                    """
                 }
             }
         }
