@@ -3,7 +3,6 @@ pipeline {
 
     tools {
         jdk 'jdk21'
-        sonarQubeScanner 'sonar-scanner'
     }
 
     stages {
@@ -16,14 +15,8 @@ pipeline {
         stage('SonarCloud Analysis') {
             steps {
                 withSonarQubeEnv('SonarCloud') {
-                    sh '''
-                        sonar-scanner \
+                    script {
+                        def scannerHome = tool 'sonar-scanner'
+                        sh """
+                        ${scannerHome}/bin/sonar-scanner \
                         -Dsonar.projectKey=ashwin918_Jenkins-demo-pipelines \
-                        -Dsonar.organization=ashwin918 \
-                        -Dsonar.host.url=https://sonarcloud.io
-                    '''
-                }
-            }
-        }
-    }
-}
